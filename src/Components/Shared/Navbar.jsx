@@ -78,7 +78,7 @@ const Navbar = () => {
                 Login
               </button>
               <Link
-                href="/register"
+                href="/author/signup"
                 className="inline-flex items-center justify-center font-semibold text-xs bg-linear-to-r from-pink-500 to-indigo-600 text-white shadow-lg shadow-pink-500/10 hover:shadow-pink-500/20 transition h-9 px-4 rounded-xl"
               >
                 Sign Up

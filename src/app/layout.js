@@ -25,7 +25,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-[#080c16] text-[#f3f4f6]">
+      <body
+        className="min-h-full flex flex-col bg-[#080c16] text-[#f3f4f6]"
+        wotdisconnected="true"
+      >
         <Navbar />
         <main>{children}</main>
         <Footer />
