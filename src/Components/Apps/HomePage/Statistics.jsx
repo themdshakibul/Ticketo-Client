@@ -1,12 +1,6 @@
 "use client";
-// {stats}
-const Statistics = () => {
-  const stats = {
-    totalEvents: "07",
-    totalAttendees: "1,206",
-    totalOrgs: "10",
-  };
 
+const Statistics = ({ stats }) => {
   return (
     <section className="py-20 bg-linear-to-r from-pink-900/10 via-indigo-900/10 to-transparent border-t border-white/5 w-full">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
