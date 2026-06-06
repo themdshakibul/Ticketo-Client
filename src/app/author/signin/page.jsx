@@ -13,8 +13,33 @@ import {
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Logo from "@/Components/Apps/NavbarSection/Logo";
+import { useForm } from "react-hook-form";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 const SigninPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const { data: signinData, error: signinError } =
+      await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+      });
+
+    if (signinError) {
+      toast.error(signinError.message);
+    } else {
+      toast.success("Signup Successfully!");
+      redirect("/");
+    }
+  };
+
   return (
     <div className="py-15">
       <Card className="w-full max-w-md mx-auto border border-white/5 bg-slate-950/70 backdrop-blur-xl shadow-2xl p-4">
@@ -28,9 +53,10 @@ const SigninPage = () => {
           </p>
         </CardHeader>
         <CardBody className="gap-4">
-          <Form className="space-y-4 w-full">
+          <Form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
             <Label htmlFor="email">Email Address</Label>
             <Input
+              {...register("email", { required: "Email is Required" })}
               id="email"
               placeholder="john@example.com"
               type="email"
@@ -38,8 +64,13 @@ const SigninPage = () => {
               startContent={<FaEnvelope className="text-slate-400 text-sm" />}
               className="w-full bg-slate-900/50 border-white/10 hover:border-pink-500/50 focus-within:border-pink-500!"
             />
+            {errors.email && (
+              <p className="text-red-500">{errors.email.message}</p>
+            )}
+
             <Label htmlFor="password">Password</Label>
             <Input
+              {...register("password", { required: "Password is Required" })}
               id="password"
               placeholder="••••••••"
               type="password"
@@ -47,6 +78,9 @@ const SigninPage = () => {
               startContent={<FaLock className="text-slate-400 text-sm" />}
               className="w-full bg-slate-900/50 border-white/10 hover:border-pink-500/50 focus-within:border-pink-500!"
             />
+            {errors.password && (
+              <p className="text-red-500">{errors.password.message}</p>
+            )}
 
             <Button
               type="submit"

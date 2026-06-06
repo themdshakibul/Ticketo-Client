@@ -7,7 +7,7 @@ import { FaTicketAlt, FaUser, FaSignOutAlt, FaThLarge } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "../Apps/NavbarSection/Logo";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -31,7 +31,6 @@ export default function Navbar() {
     await authClient.signOut();
     router.push("/");
   };
-  console.log(session);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-slate-950/65 backdrop-blur-md py-3.5 px-6">
