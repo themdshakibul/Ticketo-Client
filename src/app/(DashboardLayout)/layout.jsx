@@ -4,7 +4,6 @@ import Logo from "@/Components/Apps/NavbarSection/Logo";
 import { useSession } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
-import { IconBase } from "react-icons";
 import {
   FaBuilding,
   FaCalendarAlt,
@@ -98,18 +97,18 @@ const DashboardLayout = ({ children }) => {
               Navigation
             </p>
 
-            {orgnaizerMenu?.map((item) => {
+            {orgnaizerMenu?.map(({ key, label, icon: Icon }) => {
               return (
                 <Link
                   key={key}
-                  href={href}
+                  href={`/${key}`}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 text-left cursor-pointer text-slate-400 hover:text-white hover:bg-white/5"
                             `}
                 >
                   <span
                     className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors bg-white/5 text-slate-400`}
                   >
-                    <IconBase size={20} />
+                    <Icon size={13} />
                   </span>
                   <span>{label}</span>
 
