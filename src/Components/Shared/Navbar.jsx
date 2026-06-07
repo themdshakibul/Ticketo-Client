@@ -2,17 +2,17 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { FaTicketAlt, FaUser, FaSignOutAlt, FaThLarge } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "../Apps/NavbarSection/Logo";
 import { authClient, useSession } from "@/lib/auth-client";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { data: session } = useSession();
+
+  const { data: session } = authClient.useSession();
+  console.log(session);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -29,7 +29,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await authClient.signOut();
-    router.push("/");
+    redirect("/");
   };
 
   return (
