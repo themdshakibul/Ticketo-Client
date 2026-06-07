@@ -3,13 +3,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { FaBuilding, FaCalendarAlt, FaHome, FaPlus, FaSignOutAlt, FaUsers } from "react-icons/fa";
+import {
+  FaBuilding,
+  FaCalendarAlt,
+  FaHistory,
+  FaHome,
+  FaPlus,
+  FaSignOutAlt,
+  FaTicketAlt,
+  FaUserCircle,
+  FaUsers,
+  FaUserShield,
+} from "react-icons/fa";
 import Logo from "../../NavbarSection/Logo";
 import { useSession } from "@/lib/auth-client";
 
 const DashboardSidebar = () => {
   const { data: session } = useSession();
-  const role = session?.user.role;
 
   const handleLogout = () => {};
 
@@ -45,6 +55,58 @@ const DashboardSidebar = () => {
       href: "/dashboard/organizer/attendees",
     },
   ];
+
+  const attendeeMenu = [
+    {
+      key: "overview",
+      label: "Overview",
+      icon: FaUserCircle,
+      href: "/dashboard/attendee",
+    },
+    {
+      key: "tickets",
+      label: "My Tickets",
+      icon: FaTicketAlt,
+      href: "/dashboard/tickets",
+    },
+    {
+      key: "payments",
+      label: "Payments",
+      icon: FaHistory,
+      href: "/dashboard/payments",
+    },
+  ];
+
+  const adminMenu = [
+    {
+      key: "users",
+      label: "Users",
+      icon: FaUserShield,
+      href: "/dashboard/users",
+    },
+    {
+      key: "events",
+      label: "Approve Events",
+      icon: FaCalendarAlt,
+      href: "/dashboard/events",
+    },
+    {
+      key: "transactions",
+      label: "Transaction Logs",
+      icon: FaHistory,
+      href: "/dashboard/transactions",
+    },
+  ];
+  const role = session?.user.role;
+
+  const manuItems =
+    role === "organizer"
+      ? orgnaizerMenu
+      : role === "attendee"
+        ? attendeeMenu
+        : role === "admin"
+          ? adminMenu
+          : null;
 
   return (
     <div>
@@ -89,7 +151,7 @@ const DashboardSidebar = () => {
               Navigation
             </p>
 
-            {orgnaizerMenu?.map(({ key, label, icon: Icon, href }) => {
+            {manuItems?.map(({ key, label, icon: Icon, href }) => {
               return (
                 <Link
                   key={key}
