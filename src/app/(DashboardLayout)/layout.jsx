@@ -19,8 +19,6 @@ const DashboardLayout = ({ children }) => {
 
   const handleLogout = () => {};
 
-  console.log(session);
-
   const orgnaizerMenu = [
     {
       key: "overview",
@@ -97,11 +95,11 @@ const DashboardLayout = ({ children }) => {
               Navigation
             </p>
 
-            {orgnaizerMenu?.map(({ key, label, icon: Icon }) => {
+            {orgnaizerMenu?.map(({ key, label, icon: Icon, href }) => {
               return (
                 <Link
                   key={key}
-                  href={`/${key}`}
+                  href={href}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 text-left cursor-pointer text-slate-400 hover:text-white hover:bg-white/5"
                             `}
                 >
