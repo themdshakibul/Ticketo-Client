@@ -1,14 +1,19 @@
 "use client";
 
 import DashboardHeading from "@/Components/Apps/Dashboard/DashboardHeading/DashboardHeading";
+import { addOrinization } from "@/lib/api/organization/actions";
+import { myOrganization } from "@/lib/api/organization/data";
 import { useSession } from "@/lib/auth-client";
 import { UploadImage } from "@/Utils/UploadImage";
 import { Button, Card, CardHeader, Form, Input, TextArea } from "@heroui/react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaImage } from "react-icons/fa";
 
 const OrganizationPage = () => {
-  const { data: sesson } = useSession();
+  const { data: session } = useSession();
+  const [myOrg, setMyOrg] = useState(null);
 
   const {
     register,
@@ -16,11 +21,32 @@ const OrganizationPage = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    const setOrgData = async () => {
+      const org = await myOrganization(session?.user.email);
+      setMyOrg(org);
+    };
+    setOrgData();
+  }, [session]);
+
   const OrganizationonSubmit = async (data) => {
-    const imageFile = data.image[0];
+    const imageFile = data.logo[0];
     const imageUrl = await UploadImage(imageFile);
 
-    console.log({ imageUrl, data });
+    const orgData = {
+      organizationName: data.organizationName,
+      logo: imageUrl,
+      website: data.website,
+      description: data.description,
+      organizerEmail: session.user.email,
+    };
+
+    const resData = await addOrinization(orgData);
+    console.log(resData);
+
+    if (resData.insertedId) {
+      toast.success("Orinization Profile added");
+    }
   };
 
   return (
@@ -52,6 +78,7 @@ const OrganizationPage = () => {
               className="space-y-4 w-full"
             >
               <Input
+                defaultValue={myOrg?.organizationName}
                 {...register("organizationName", {
                   required: "OrganizationName is Required",
                 })}
@@ -69,6 +96,7 @@ const OrganizationPage = () => {
               )}
 
               <Input
+                // defaultValue={myOrg?.logo}
                 {...register("logo", {
                   required: "Logo is Required",
                 })}
@@ -85,10 +113,11 @@ const OrganizationPage = () => {
               )}
 
               <Input
-                {...register("organizationWebsite", {
+                defaultValue={myOrg?.website}
+                {...register("website", {
                   required: "OrganizationWebsite is Required",
                 })}
-                id="organizationWebsite"
+                id="website"
                 label="Organization Website"
                 labelPlacement="outside"
                 placeholder="techevents.corp"
@@ -102,6 +131,7 @@ const OrganizationPage = () => {
               )}
 
               <TextArea
+                defaultValue={myOrg?.description}
                 {...register("description", {
                   required: "Description is Required",
                 })}

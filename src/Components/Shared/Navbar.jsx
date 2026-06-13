@@ -12,7 +12,6 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const { data: session } = authClient.useSession();
-  console.log(session);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
