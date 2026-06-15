@@ -1,7 +1,10 @@
 "use client";
 
 import DashboardHeading from "@/Components/Apps/Dashboard/DashboardHeading/DashboardHeading";
-import { addOrinization } from "@/lib/api/organization/actions";
+import {
+  addOrinization,
+  updateOrinization,
+} from "@/lib/api/organization/actions";
 import { myOrganization } from "@/lib/api/organization/data";
 import { useSession } from "@/lib/auth-client";
 import { UploadImage } from "@/Utils/UploadImage";
@@ -41,11 +44,17 @@ const OrganizationPage = () => {
       organizerEmail: session.user.email,
     };
 
-    const resData = await addOrinization(orgData);
-    console.log(resData);
+    if (!myOrg) {
+      const resData = await addOrinization(orgData);
 
-    if (resData.insertedId) {
-      toast.success("Orinization Profile added");
+      if (resData.insertedId) {
+        toast.success("Orinization Profile added");
+      }
+    } else {
+      const updatedData = await updateOrinization(orgData, myOrg._id);
+      if (updatedData.modifiedCount > 0) {
+        toast.success("Orinization Profile updated");
+      }
     }
   };
 

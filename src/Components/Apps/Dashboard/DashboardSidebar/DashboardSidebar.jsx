@@ -46,7 +46,7 @@ const DashboardSidebar = () => {
       key: "manage-events",
       label: "Manage Events",
       icon: FaCalendarAlt,
-      href: "/dashboard/organizer/manage-events",
+      href: "/dashboard/organizer/manage-event",  
     },
     {
       key: "attendees",
