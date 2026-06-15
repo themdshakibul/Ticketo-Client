@@ -19,12 +19,19 @@ import {
 } from "@heroui/react";
 import { useEffect } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import EditeEventModal from "@/Components/Apps/Dashboard/Organizer/EditeEventModal";
+import DeleteventModal from "@/Components/Apps/Dashboard/Organizer/DeleteventModal";
 
 const ManageEventsPage = () => {
-  const { data: session } = useSession();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingEvent, setEditingEvent] = useState(null);
+  const [isDeletedOpen, setIsDeletedOpen] = useState(null);
+  const [deletedId, setIsDeletedId] = useState(null);
 
   const [evnts, setEvnts] = useState([]);
   const [lodingEvnts, setLodingEvnts] = useState(false);
+
+  const { data: session } = useSession();
 
   useEffect(() => {
     const getEvnts = async () => {
@@ -35,8 +42,6 @@ const ManageEventsPage = () => {
     };
     getEvnts();
   }, [session]);
-
-  console.log(evnts);
 
   return (
     <div>
@@ -150,8 +155,8 @@ const ManageEventsPage = () => {
                                 radius="full"
                                 className="h-8 w-8 min-w-0 p-0 border border-red-500/20 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:scale-[1.03] transition-all duration-200"
                                 onPress={() => {
-                                  setDeletedId(ev._id);
-                                  setIsDeleteOpen(true);
+                                  setIsDeletedId(ev._id);
+                                  setIsDeletedOpen(true);
                                 }}
                               >
                                 <FaTrash size={12} />
@@ -173,8 +178,17 @@ const ManageEventsPage = () => {
       </div>
 
       {/* EVENT EDIT MODAL */}
-      {/* <EditEventModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} editingEvent={editingEvent} />
-            <DeleteEventModal isDeleteOpen={isDeleteOpen} setIsDeleteOpen={setIsDeleteOpen} id={deletedId} /> */}
+      <EditeEventModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        editingEvent={editingEvent}
+      />
+
+      <DeleteventModal
+        isDeletedOpen={isDeletedOpen}
+        setIsDeletedOpen={setIsDeletedOpen}
+        id={deletedId}
+      />
     </div>
   );
 };
