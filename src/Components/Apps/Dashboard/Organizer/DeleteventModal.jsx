@@ -40,6 +40,7 @@ const DeleteventModal = ({ isDeletedOpen, setIsDeletedOpen, id }) => {
                 Cancel
               </Button>
               <Button
+                slot="close"
                 color="danger"
                 className="font-bold"
                 onPress={handleDeleteEvent}
