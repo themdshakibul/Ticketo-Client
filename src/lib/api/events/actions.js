@@ -1,6 +1,6 @@
 "use server";
 
-import { serverMutaiton } from "../server";
+import { deleteMutaiton, serverMutaiton } from "../server";
 
 export const addEvent = async (data) => {
   const resData = await serverMutaiton("/api/events", "POST", data);
@@ -12,7 +12,9 @@ export const updateEvent = async (data, id) => {
   return resData;
 };
 
-export const deleteEvent = async (data, id) => {
-  const resData = await serverMutaiton(`/api/events/${id}`, "DELETE", data);
+export const deleteEvent = async (id) => {
+  const resData = await deleteMutaiton(`/api/events/${id}`, {
+    catch: "no-store"
+  });
   return resData;
 };

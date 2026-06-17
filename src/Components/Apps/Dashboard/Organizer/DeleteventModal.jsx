@@ -1,22 +1,24 @@
 import { deleteEvent } from "@/lib/api/events/actions";
 import { Button, Modal } from "@heroui/react";
-import React from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const DeleteventModal = ({ isDeletedOpen, setIsDeletedOpen, id }) => {
- 
+  const router = useRouter();
 
-  const handelDeleteEvent = async () => {
-    const result = await deleteEvent(id);
-    // console.log(result);
+  const handleDeleteEvent = async () => {
+    const res = await deleteEvent(id);
 
-    if (result?.modyfycedCount > 0) {
+    if (res?.deletedCount > 0) {
       toast.success("Event updated successfully");
-      redirect("/events");
+      router.refresh();
+    } else {
+      toast.error(res?.message);
     }
   };
 
   return (
-    <Modal isOpen={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+    <Modal isOpen={isDeletedOpen} onOpenChange={setIsDeletedOpen}>
       <Modal.Backdrop>
         <Modal.Container>
           <Modal.Dialog className="dark text-white bg-slate-950 border border-white/10 p-6 rounded-2xl w-full max-w-md mx-auto">
@@ -33,7 +35,7 @@ const DeleteventModal = ({ isDeletedOpen, setIsDeletedOpen, id }) => {
               <Button
                 variant="light"
                 className="text-slate-400"
-                onPress={() => setIsDeleteOpen(false)}
+                onPress={() => setIsDeletedOpen(false)}
               >
                 Cancel
               </Button>
