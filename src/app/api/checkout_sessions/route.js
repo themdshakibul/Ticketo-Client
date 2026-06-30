@@ -12,14 +12,16 @@ export async function POST() {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          // Provide the exact Price ID (for example, price_1234) of the product you want to sell
-          price: "{{PRICE_ID}}",
+          price: "prod_UncY0QfLTzX77n",
           quantity: 1,
         },
       ],
       mode: "subscription",
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/cancel??session_id={CHECKOUT_SESSION_ID}`,
     });
+
+    console.log(session);
     return NextResponse.redirect(session.url, 303);
   } catch (err) {
     return NextResponse.json(

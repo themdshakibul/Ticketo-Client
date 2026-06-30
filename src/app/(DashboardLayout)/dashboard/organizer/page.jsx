@@ -1,8 +1,10 @@
 import DashboardHeading from "@/Components/Apps/Dashboard/DashboardHeading/DashboardHeading";
-import { Button, Card } from "@heroui/react";
+import UpgradePremiumButton from "@/Components/Apps/Dashboard/EventPage/UpgradePremiumButton";
+import { getUser } from "@/lib/api/session";
+import { Card } from "@heroui/react";
 import { FaCalendarAlt, FaCrown, FaDollarSign, FaUsers } from "react-icons/fa";
 
-const OrganizerOverviewPage = () => {
+const OrganizerOverviewPage = async () => {
   const stats = {
     totalEvents: 15,
     totalAttendees: 450,
@@ -10,7 +12,9 @@ const OrganizerOverviewPage = () => {
     totalSoldTickets: 780,
   };
 
-  const isPremium = false;
+  const user = await getUser();
+
+  const isPremium = user?.isPremium;
 
   return (
     <div className="space-y-6 mt-6">
@@ -63,7 +67,7 @@ const OrganizerOverviewPage = () => {
         </Card>
       </div>
 
-      {!isPremium && (
+      {!isPremium ? (
         <Card
           className="border border-yellow-500/20 bg-linear-to-r from-yellow-500/5 via-amber-600/5 to-transparent relative overflow-hidden"
           radius="lg"
@@ -80,12 +84,24 @@ const OrganizerOverviewPage = () => {
                 <strong>$49.00</strong> to host unlimited events.
               </p>
             </div>
-            <Button
-              className="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold h-11 px-6 shadow-lg shadow-yellow-500/10 shrink-0"
-              radius="lg"
-            >
-              Upgrade to Premium
-            </Button>
+            <UpgradePremiumButton />
+          </div>
+        </Card>
+      ) : (
+        <Card
+          className="border border-green-500/20 bg-linear-to-r from-green-500/5 via-amber-600/5 to-transparent relative overflow-hidden"
+          radius="lg"
+        >
+          <div className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 z-10">
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <FaCrown className="text-green-400" /> Welcome to premium
+                dashboard
+              </h3>
+              <p className="text-slate-400 text-xs max-w-xl leading-relaxed">
+                You can create more then 3 events now...
+              </p>
+            </div>
           </div>
         </Card>
       )}
