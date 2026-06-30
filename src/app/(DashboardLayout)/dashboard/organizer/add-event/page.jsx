@@ -68,12 +68,14 @@ const AddEventPage = () => {
       organizationEmail: session.user.email,
     };
 
-    const result = await addEvent(updateData);    
-    // console.log(result);
+    const result = await addEvent(updateData);
+    console.log(result);
 
     if (result.insertedId) {
       toast.success("Event added successfully...");
       redirect("/events");
+    } else {
+      toast.error(result.message || "Even not Created...");
     }
   };
 

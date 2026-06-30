@@ -7,12 +7,13 @@ import { fetchEvents } from "@/lib/api/events/data";
 // ?search=mern&category=music
 export default async function BrowseEventsPage({ searchParams }) {
   const sParams = await searchParams;
-  // console.log(sParams);
+
   const search = sParams.search || "";
   const category = sParams.category || "";
   const location = sParams.location || "";
-  // console.log(search, category, location);
+
   const params = new URLSearchParams();
+
   if (search) {
     params.set("search", search);
   }
@@ -22,7 +23,6 @@ export default async function BrowseEventsPage({ searchParams }) {
   if (location) {
     params.set("location", location);
   }
-  // console.log(params.toString());
 
   const events = await fetchEvents(params);
 
