@@ -14,29 +14,25 @@ export default async function PremiumSuccess({ searchParams }) {
     expand: ["line_items", "payment_intent"],
   });
 
-  console.log(session); 
+  const paymentData = {
+    userEmail: session?.customer_email,
+    transactionId: session?.subscription,
+    paymentStatus: session?.payment_status,
+    paymentType: "subscription",
+    amount: session?.amount_total / 100,
+  };
 
-  // const paymentData = {
-  //   userEmail: session?.customer_email,
-  //   transactionId: session?.subscription,
-  //   paymentStatus: session?.payment_status,
-  //   paymentType: "subscription",
-  //   amount: session?.amount_total / 100,
-  // };
-
-  // const res = await fetch(
-  //   `${baseUrl}/api/users/upgrade-premium/${session?.customer_email}`,
-  //   {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(paymentData),
-  //   },
-  // );
-
-  // const data = await res.json();
-  // console.log(data);
+  const res = await fetch(
+    `${baseUrl}/api/user/upgrade/premium/${session?.customer_email}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(paymentData),
+    },
+  );
+  const data = await res.json();
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-[#080c16] px-6 py-12">
